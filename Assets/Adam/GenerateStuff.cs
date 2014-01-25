@@ -25,10 +25,22 @@ public class GenerateStuff : MonoBehaviour {
 		BodyPart.ConnectBodyParts<SpringJoint> (hex1, hex2).transform.Translate(Vector3.left * 10f);
 	}
 
+	void generateFlyer() {
+		Color color = DomainEditors.getRandColor ();
+		GameObject hex1 = HexahedronFiller.FillHexahedron (2, 5, 3, 0.95f, 0.25f, 0);
+		DomainEditors.ChangeColor (color, hex1);
+		GameObject hex2 = HexahedronFiller.FillHexahedron (2, 4, 5, 0.7f, 0.4f, 0);
+		DomainEditors.ChangeColor (color, hex2);
+		hex2.AddComponent<Flyer> ();
+		
+		BodyPart.ConnectBodyParts<SpringJoint> (hex1, hex2).transform.Translate(Vector3.up * 10f);
+	}
+
 	// Use this for initialization
 	void Start () {
 		generateWalker ();
 		generateJumper ();
+		generateFlyer ();
 	}
 	
 	// Update is called once per frame
