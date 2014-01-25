@@ -25,7 +25,7 @@ public class Body : BodyPart {
 
 		//Symetrical Anchors, Legs left & right
 		int r = UnityEngine.Random.Range(0,5);
-		if(r>2){
+		if(r>0){
 			BodyPartDomain[] domains = new BodyPartDomain[1];
 			domains[0] = BodyPartDomain.Leg;
 
@@ -37,21 +37,21 @@ public class Body : BodyPart {
 		
 		r = UnityEngine.Random.Range(0,5);
 
-		if(r>4){ //asymetrical, singular leg on front
+		if(r>3){ //asymetrical, singular leg on front
 			BodyPartDomain[] domains = new BodyPartDomain[1];
 			domains[0] = BodyPartDomain.Leg;
 			
-			anchors.Add(GenerateAnchor(Vector3.forward,domains));
+			anchors.Add(GenerateAnchor(Vector3.forward,new Vector3(-0.0f,-0.5f,-0.0f), new Vector3(0.0f,0.5f,0.0f),domains));
 		}
 		
-		r = UnityEngine.Random.Range(0,5);
-		
-		if(r>2){ //asymetrical, head on front
-			BodyPartDomain[] domains = new BodyPartDomain[1];
-			domains[0] = BodyPartDomain.Head;
-			
-			anchors.Add(GenerateAnchor(Vector3.forward,domains));
-		}
+//		r = UnityEngine.Random.Range(0,5);
+//		
+//		if(r>2){ //asymetrical, head on front
+//			BodyPartDomain[] domains = new BodyPartDomain[1];
+//			domains[0] = BodyPartDomain.Head;
+//			
+//			anchors.Add(GenerateAnchor(Vector3.forward,domains));
+//		}
 
 		anchorPoints = anchors.ToArray();
 	}
@@ -72,8 +72,16 @@ public class Body : BodyPart {
 	private AnchorPoint GenerateAnchor(Vector3 side, BodyPart.BodyPartDomain [] domains){
 		return GenerateAnchor(side,domains,UnityEngine.Random.seed);
 	}
+	private AnchorPoint GenerateAnchor(Vector3 side, Vector3 minFaceAreaExtension, Vector3 maxFaceAreaExtension, BodyPart.BodyPartDomain [] domains){
+		return GenerateAnchor(side, minFaceAreaExtension, maxFaceAreaExtension, domains,UnityEngine.Random.seed);
+		
+	}
 
 	private AnchorPoint GenerateAnchor(Vector3 side, BodyPart.BodyPartDomain [] domains, int seed){
+		return GenerateAnchor(side,new Vector3(-0.5f,-0.5f,-0.5f),new Vector3(0.5f,0.5f,0.5f), domains,seed);
+
+	}
+	private AnchorPoint GenerateAnchor(Vector3 side, Vector3 minFaceAreaExtension, Vector3 maxFaceAreaExtension, BodyPart.BodyPartDomain [] domains, int seed){
 		UnityEngine.Random.seed = seed;
 
 		GameObject obj = new GameObject("Anchor for " + domains[0]);
@@ -83,9 +91,9 @@ public class Body : BodyPart {
 		Vector3 abs = new Vector3(Mathf.Abs(side.x),Mathf.Abs(side.y),Mathf.Abs(side.z));
 		Vector3 face = Vector3.one - abs;
 		face = new Vector3(
-			face.x * UnityEngine.Random.Range(-0.5f,0.5f),
-			face.y * UnityEngine.Random.Range(-0.5f,0.5f),
-			face.z * UnityEngine.Random.Range(-0.5f,0.5f));
+			face.x * UnityEngine.Random.Range(minFaceAreaExtension.x,maxFaceAreaExtension.x),
+			face.y * UnityEngine.Random.Range(minFaceAreaExtension.y,maxFaceAreaExtension.y),
+			face.z * UnityEngine.Random.Range(minFaceAreaExtension.z,maxFaceAreaExtension.z));
 		obj.transform.localPosition += face;
 		anchor.acceptableParts = domains;
 		return anchor;

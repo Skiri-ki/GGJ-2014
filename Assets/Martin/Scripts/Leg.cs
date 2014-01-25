@@ -7,8 +7,8 @@ public class Leg : LocomotiveExtremity {
 	public bool autoPropel = true;
 	protected float swingFrequenzyForwardMovement = 1.0f;//in seconds between swings
 	protected float swingFrequenzyBackMovement = 1.0f;//in seconds between swings
-	protected float swingForceForwardMovement = 1.0f;
-	protected float swingForceBackMovement = 0.5f;
+	protected float swingForceForwardMovement = 100.0f;
+	protected float swingForceBackMovement = 50.0f;
 
 	public override BodyPartDomain BodyDomain{get{return BodyPartDomain.Leg;}}
 	
@@ -31,6 +31,7 @@ public class Leg : LocomotiveExtremity {
 		{
 			//			legJoint.rigidbody.AddRelativeForce(Vector3.forward * swingForceForwardMovement);
 			legJoint.useMotor= true;
+			legJoint.useLimits = true;
 			JointMotor motor = new JointMotor();
 			motor.targetVelocity = swingForceForwardMovement;
 			motor.force = swingForceForwardMovement;
@@ -39,6 +40,7 @@ public class Leg : LocomotiveExtremity {
 	
 		}else{
 			legJoint.useMotor= true;
+			legJoint.useLimits = true;
 			JointMotor motor = new JointMotor();
 			motor.targetVelocity = -swingForceBackMovement;
 			motor.force = swingForceBackMovement;

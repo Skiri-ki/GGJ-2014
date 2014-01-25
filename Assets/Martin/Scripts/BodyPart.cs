@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using GameObjectExtension;
 
 //[RequireComponent(typeof(Rigidbody))]
 public abstract class BodyPart : Domain {
@@ -27,17 +28,16 @@ public abstract class BodyPart : Domain {
 	/// <param name="objB">Object b.</param>
 	/// <typeparam name="T">The 1st type parameter.</typeparam>
 	public static GameObject ConnectBodyParts<T>(GameObject objA, GameObject objB) where T : Joint{
-		
-//		BodyPart partA = objA.GetComponent<BodyPart>();
-//		if(partA == null)
-//			partA = objA.AddComponent<BodyPart>() as BodyPart;
-//
-//		BodyPart partB = objB.GetComponent<BodyPart>();
-//		if(partB == null)
-//			partB =  objB.AddComponent<BodyPart>() as BodyPart;
+//		BodyPart partA = objA.AddComponentIfMissing<BodyPart>();
+//		BodyPart partB = objB.AddComponentIfMissing<BodyPart>();
 
-		//
-		Vector3 distBA = objA.transform.position - objB.transform.position;
+		//first calculate the Distance
+		Vector3 posA = GetPosition(objA);
+		Vector3 posB = GetPosition(objB);
+
+		Vector3 distBA = posA - posB;
+
+		//next find out which side 
 
 		Vector3 side = Vector3.right * Mathf.Sign(distBA.x);
 		bool changedSideToY = false;
@@ -50,68 +50,85 @@ public abstract class BodyPart : Domain {
 			side = Vector3.forward * Mathf.Sign(distBA.z);
 		}
 
-		Rigidbody rigidA = objA.rigidbody;
-		if(rigidA == null){
-			rigidA = objA.AddComponent<Rigidbody>();
-		}
+		//now lets add some rigidbodys in case we need them for ClosestPointOnBounds and because we need them later anyway
+
+		Rigidbody rigidA = objA.AddComponentIfMissing<Rigidbody>();
 		
-		Rigidbody rigidB = objB.rigidbody;
-		if(rigidB == null){
-			rigidB = objB.AddComponent<Rigidbody>();
-		}
+		Rigidbody rigidB = objB.AddComponentIfMissing<Rigidbody>();
 
-		Vector3 offsetToA; 
-		if(objA.collider != null)
-			offsetToA = new Vector3(objA.collider.bounds.extents.x * -side.x, 
-			                        objA.collider.bounds.extents.y * -side.y,
-			                        objA.collider.bounds.extents.z * -side.z);
-		else if(objA.renderer != null)
-			offsetToA = new Vector3(objA.renderer.bounds.extents.x * -side.x, 
-			                        objA.renderer.bounds.extents.y * -side.y,
-			                        objA.renderer.bounds.extents.z * -side.z);
-		else{
-			offsetToA = rigidA.ClosestPointOnBounds(rigidB.transform.position) - rigidA.transform.position;
-			offsetToA = new Vector3(offsetToA.x * Mathf.Abs( side.x),
-			                        offsetToA.y * Mathf.Abs( side.y),
-			                        offsetToA.z * Mathf.Abs( side.z));
-			Debug.LogError("objA " + objA.name + " has neither renderer nor collider attached");
-		}
+		//find out where their surface points are
 
-		Vector3 offsetToB; 
-		
-		if(objB.collider != null)
-			offsetToB = new Vector3(objB.collider.bounds.extents.x * side.x, 
-			                        objB.collider.bounds.extents.y * side.y,
-			                        objB.collider.bounds.extents.z * side.z);
-		else if(objA.renderer != null)
-			offsetToB = new Vector3(objB.renderer.bounds.extents.x * side.x, 
-			                        objB.renderer.bounds.extents.y * side.y,
-			                        objB.renderer.bounds.extents.z * side.z);
-		else{
-			offsetToB = rigidB.ClosestPointOnBounds(rigidA.transform.position) - rigidB.transform.position ;
-			offsetToB = new Vector3(offsetToB.x * Mathf.Abs( side.x),
-			                        offsetToB.y * Mathf.Abs( side.y),
-			                        offsetToB.z * Mathf.Abs( side.z));
-			Debug.LogError("objA " + objA.name + " has neither renderer nor collider attached");
-		}
+		Vector3 offsetToA = FindOffset(objA, side, rigidA, rigidB); 
+		Vector3 offsetToB= FindOffset(objB, side, rigidB, rigidA);  
 
-		objB.transform.position = objA.transform.position + offsetToA - offsetToB;
+		//calculate and set necessary position, this needs to hapeen before adding a joint
+
+		objB.transform.position = objA.transform.position + offsetToA + offsetToB;
+
+		//add the joint
 
 		Joint joint = objB.AddComponent<T>() as Joint;
 		joint.anchor = side *0.5f;
 		joint.axis = side;
 
-		
+		//connect the joint with it's parent and parent it
+
 		joint.connectedBody = rigidA;
-
-
 		objB.transform.parent = objA.transform;
+
+
 		return objA;
 	}
+
+	private static Vector3 GetPosition(GameObject obj){
+		Vector3 pos = obj.transform.position;
+		if(obj.collider != null){
+			pos = obj.collider.bounds.center;
+		}
+		else if(obj.renderer != null){
+			pos = obj.renderer.bounds.center;
+		}
+		return pos;
+	}
+
+	private static Vector3 FindOffset(GameObject obj, Vector3 side, Rigidbody rigidTo, Rigidbody rigidFrom){
+		Vector3 offset; 
+		if(obj.collider != null){
+			offset = new Vector3(obj.collider.bounds.extents.x * -side.x, 
+			                        obj.collider.bounds.extents.y * -side.y,
+			                        obj.collider.bounds.extents.z * -side.z);
+			
+		}
+		else if(obj.renderer != null){
+			offset = new Vector3(obj.renderer.bounds.extents.x * -side.x, 
+			                        obj.renderer.bounds.extents.y * -side.y,
+			                        obj.renderer.bounds.extents.z * -side.z);
+		}
+		else{
+			offset = rigidTo.ClosestPointOnBounds(rigidFrom.transform.position) - rigidTo.transform.position;
+			offset = new Vector3(offset.x * Mathf.Abs( side.x),
+			                        offset.y * Mathf.Abs( side.y),
+			                        offset.z * Mathf.Abs( side.z));
+			Debug.LogError(obj.name + " has neither renderer nor collider attached");
+		}
+		return offset;
+	}
+
+
+//
+//	public static T AddComponentIfMissing<T>(this GameObject obj)where T : Component{
+//		T comp= obj.GetComponent<T>();
+//		if(comp == null)
+//			comp = obj.AddComponent<T>();
+//		return comp;
+//	}
 
 	public virtual void ConnectedBody(Rigidbody body){
 		GetComponent<Joint>().connectedBody = body.rigidbody;
 	}
+
+
+
 //	// Use this for initialization
 //	void Start () {
 //	
