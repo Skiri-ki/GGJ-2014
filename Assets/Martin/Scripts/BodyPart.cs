@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 
 //[RequireComponent(typeof(Rigidbody))]
-public abstract class BodyPart : Function {
+public abstract class BodyPart : Domain {
 //	public virtual AnchorPoint [] anchorPoints;
 
 	public enum BodyPartDomain{
@@ -17,9 +17,16 @@ public abstract class BodyPart : Function {
 		Head
 		//...
 	}
-	public abstract BodyPartDomain Domain{get;}
+	public abstract BodyPartDomain BodyDomain{get;}
 
-	public static void ConnectBodyParts<T>(GameObject objA, GameObject objB) where T : Joint{
+	/// <summary>
+	/// Connects the body parts.
+	/// </summary>
+	/// <returns>The parent body part.</returns>
+	/// <param name="objA">Object a.</param>
+	/// <param name="objB">Object b.</param>
+	/// <typeparam name="T">The 1st type parameter.</typeparam>
+	public static GameObject ConnectBodyParts<T>(GameObject objA, GameObject objB) where T : Joint{
 		
 //		BodyPart partA = objA.GetComponent<BodyPart>();
 //		if(partA == null)
@@ -57,11 +64,15 @@ public abstract class BodyPart : Function {
 		joint.axis =side;
 
 		Rigidbody rigidA = objA.rigidbody;
-		if(rigidA != null)
+		if(rigidA == null){
 			rigidA = objA.AddComponent<Rigidbody>();
+		}
+		
+		joint.connectedBody = rigidA;
 
 
 		objB.transform.parent = objA.transform;
+		return objA;
 	}
 
 	public virtual void ConnectedBody(Rigidbody body){

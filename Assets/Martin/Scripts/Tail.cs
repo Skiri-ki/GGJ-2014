@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Tail : BodyPart {
 	
-	public override BodyPartDomain Domain{get{return BodyPartDomain.Tail;}}
+	public override BodyPartDomain BodyDomain{get{return BodyPartDomain.Tail;}}
 
 //	Transform anker;
 	public TailPart basePart;

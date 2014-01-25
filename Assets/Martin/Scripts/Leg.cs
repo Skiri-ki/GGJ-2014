@@ -10,7 +10,7 @@ public class Leg : LocomotiveExtremity {
 	protected float swingForceForwardMovement = 1.0f;
 	protected float swingForceBackMovement = 0.5f;
 
-	public override BodyPartDomain Domain{get{return BodyPartDomain.Leg;}}
+	public override BodyPartDomain BodyDomain{get{return BodyPartDomain.Leg;}}
 	
 	public override void ConnectedBody(Rigidbody body){
 		legJoint.connectedBody = body;

@@ -18,7 +18,7 @@ public class BodyPartPrefabCollection : MonoBehaviour {
 	public List<BodyPart> GetPrefabs(BodyPart.BodyPartDomain domain){
 		IEnumerable<BodyPart> partQuerry =
 			from prefab in prefabs
-				where prefab.Domain == domain
+				where prefab.BodyDomain == domain
 				select prefab;
 
 		List<BodyPart> foundPrefabs = new List<BodyPart>();

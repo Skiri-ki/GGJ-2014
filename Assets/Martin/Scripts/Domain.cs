@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract  class Function : MonoBehaviour {
+public abstract  class Domain : MonoBehaviour {
 
 //	// Use this for initialization
 //	void Start () {

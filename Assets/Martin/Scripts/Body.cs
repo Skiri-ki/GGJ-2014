@@ -6,7 +6,7 @@ public class Body : BodyPart {
 	public AnchorPoint [] anchorPoints;
 	public bool	generateAll;
 	public bool	generatePartsFromAnchors;
-	public override BodyPartDomain Domain{get{return BodyPartDomain.Body;}}
+	public override BodyPartDomain BodyDomain{get{return BodyPartDomain.Body;}}
 
 	void Start(){
 		if(generateAll){
