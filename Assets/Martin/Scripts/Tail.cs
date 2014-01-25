@@ -2,6 +2,9 @@
 using System.Collections;
 
 public class Tail : BodyPart {
+	
+	public override BodyPartDomain Domain{get{return BodyPartDomain.Tail;}}
+
 //	Transform anker;
 	public TailPart basePart;
 	public TailPart tip;

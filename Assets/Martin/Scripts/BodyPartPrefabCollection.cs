@@ -2,12 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 public class BodyPartPrefabCollection : MonoBehaviour {
 //	public TypedBodyPartPrefabCollection [] bodyPartCollections;
 	public static BodyPartPrefabCollection COLLECTION;
-	
-	public TypedBodyPartExample[] examples;
+
 
 	public BodyPart [] prefabs;
 
@@ -15,30 +15,16 @@ public class BodyPartPrefabCollection : MonoBehaviour {
 		COLLECTION = this;
 	}
 
-	public BodyPart GetExampleFor(BodyPart.BodyPartDomain domain){
-		IEnumerable<TypedBodyPartExample> partQuerry =
-			from example in examples
-				where example.domain == domain
-				select example;
-
-		List<BodyPart> foundExamples = new List<BodyPart>(1);
-		foreach (TypedBodyPartExample foundExample in partQuerry) {
-			foundExamples.Add(foundExample.example);
-		}
-		return foundExamples[0];
-	}
-
-	public List<T> GetPrefabs<T>(T example) where T : BodyPart{
+	public List<BodyPart> GetPrefabs(BodyPart.BodyPartDomain domain){
 		IEnumerable<BodyPart> partQuerry =
 			from prefab in prefabs
-				where prefab.GetType() == example.GetType()
+				where prefab.Domain == domain
 				select prefab;
 
-		List<T> foundPrefabs = new List<T>();
-		foreach (T foundPrefab in partQuerry) {
+		List<BodyPart> foundPrefabs = new List<BodyPart>();
+		foreach (BodyPart foundPrefab in partQuerry) {
 			foundPrefabs.Add(foundPrefab);
 		}
-
 		return foundPrefabs;
 	}
 }

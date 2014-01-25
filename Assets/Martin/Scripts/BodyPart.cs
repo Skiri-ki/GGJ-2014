@@ -5,15 +5,18 @@ using System;
 using System.Linq;
 
 //[RequireComponent(typeof(Rigidbody))]
-public class BodyPart : Function {
+public abstract class BodyPart : Function {
 	public enum BodyPartDomain{
 		Body,
 		LocomotiveExtremity,
 		Arm,
 		Leg,
-		Tail
+		Tail,
+		Head
 		//...
 	}
+	public abstract BodyPartDomain Domain{get;}
+//	public BodyPartDomain domain = BodyPartDomain.BodyPart;
 
 //	public abstract void ConnectedBody(BodyPart body);
 
