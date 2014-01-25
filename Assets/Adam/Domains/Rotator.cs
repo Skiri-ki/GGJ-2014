@@ -11,7 +11,8 @@ public class Rotator : MonoBehaviour {
 		joint = GetComponent<HingeJoint> ();
 		joint.useMotor = true;
 		JointMotor motor = joint.motor;
-		motor.force = Random.Range (MIN_FORCE, MAX_FORCE);
+		motor.force = Random.Range (MIN_FORCE, MAX_FORCE) * 
+			transform.localScale.x * transform.localScale.y * transform.localScale.z;;
 		motor.targetVelocity = Random.Range (MIN_VELOCITY, MAX_VELOCITY);
 		joint.motor = motor;
 	}
