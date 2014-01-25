@@ -3,12 +3,12 @@ using System.Collections;
 
 //[RequireComponent(typeof(CharacterJoint))]
 public class Leg : LocomotiveExtremity {
-	public CharacterJoint legJoint;
+	public HingeJoint legJoint;
 	public bool autoPropel = true;
-	public float swingFrequenzyForwardMovement = 1.0f;//in seconds between swings
-	public float swingFrequenzyBackMovement = 1.0f;//in seconds between swings
-	protected float swingForceForwardMovement = 10.0f;
-	protected float swingForceBackMovement = 5.0f;
+	protected float swingFrequenzyForwardMovement = 1.0f;//in seconds between swings
+	protected float swingFrequenzyBackMovement = 1.0f;//in seconds between swings
+	protected float swingForceForwardMovement = 1.0f;
+	protected float swingForceBackMovement = 0.5f;
 
 	public override BodyPartDomain Domain{get{return BodyPartDomain.Leg;}}
 	
@@ -29,11 +29,21 @@ public class Leg : LocomotiveExtremity {
 	public virtual void PropelForward(){
 		if(Time.time%(swingFrequenzyForwardMovement+swingFrequenzyBackMovement)<swingFrequenzyForwardMovement)
 		{
-			legJoint.rigidbody.AddRelativeForce(Vector3.forward * swingForceForwardMovement);
+			//			legJoint.rigidbody.AddRelativeForce(Vector3.forward * swingForceForwardMovement);
+			legJoint.useMotor= true;
+			JointMotor motor = new JointMotor();
+			motor.targetVelocity = swingForceForwardMovement;
+			motor.force = swingForceForwardMovement;
+			legJoint.motor = motor;
 //			Debug.Log("for");
 	
 		}else{
-			legJoint.rigidbody.AddRelativeForce(Vector3.forward * -swingForceBackMovement);
+			legJoint.useMotor= true;
+			JointMotor motor = new JointMotor();
+			motor.targetVelocity = -swingForceBackMovement;
+			motor.force = swingForceBackMovement;
+			legJoint.motor = motor;
+//			legJoint.rigidbody.AddRelativeForce(Vector3.forward * -swingForceBackMovement);
 //			Debug.Log("Back");
 			
 		}
