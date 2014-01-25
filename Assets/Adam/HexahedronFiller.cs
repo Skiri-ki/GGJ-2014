@@ -38,6 +38,7 @@ public class HexahedronFiller : MonoBehaviour {
 		return holder;
 	}
 
+	// Number saying how far I am from the center in the given dimension [0,0.33]
 	static float getFactor(int pos, int length) {
 		return Mathf.Abs((length / 2f) - pos) / (length * 1.5f);
 	}
