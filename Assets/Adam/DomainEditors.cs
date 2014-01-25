@@ -14,6 +14,11 @@ public class DomainEditors : MonoBehaviour {
 	
 	}
 
+	public static Color getRandColor( ) {
+		System.Func<float> rand_col = () => Random.Range(0f,1f);
+		return new Color(rand_col(), rand_col(), rand_col());
+	}
+
 	public static void ChangeColor(Color new_color, GameObject domain) {
 		Material new_material = new Material (Shader.Find ("Diffuse"));
 		new_material.color = new_color;

@@ -144,7 +144,8 @@ public class HexahedronFiller : MonoBehaviour {
 		GameObject holder = new GameObject ("hexahedron_" + obj_count++.ToString ());
 		BoxCollider collider = holder.AddComponent<BoxCollider> ();
 		collider.center = new Vector3 (x  / 2f, y / 2f, z / 2f);
-		collider.extents = new Vector3 (x / 2f, y / 2f, z / 2f);
+		collider.size = new Vector3 (x, y, z);
+		collider.enabled = false;
 		return turnToObject (holder, cube_present, scale_factor);
 	}
 }

@@ -29,8 +29,8 @@ public class HexagonFillerInspector : Editor {
 		GameObject hexagon = null;
 		if (GUILayout.Button ("CreateObject")) {
 			hexagon = HexahedronFiller.FillHexahedron (x, y, z, scale_factor, seed_prob, gol_steps);
-			System.Func<float> rand_col = () => Random.Range(0f,1f);
-			DomainEditors.ChangeColor(new Color(rand_col(), rand_col(), rand_col()), hexagon);
+
+			DomainEditors.ChangeColor(DomainEditors.getRandColor(), hexagon);
 		}
 	}
 }
