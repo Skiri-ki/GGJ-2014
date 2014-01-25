@@ -34,6 +34,11 @@ public class HexahedronFiller : MonoBehaviour {
 				}
 			}
 		}
+
+		Bounds bounds = holder.renderer.bounds;
+		foreach(Renderer r in holder.GetComponentsInChildren<Renderer>()) {
+			bounds.Encapsulate(r.bounds);
+		}
 		
 		return holder;
 	}
