@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 public class WorldBuilder : MonoBehaviour {
 
 	public Transform Player;
+	public MusicGenerator MusicGen;
 
 	public List<Transform> ActiveObjects;
 
@@ -34,7 +35,7 @@ public class WorldBuilder : MonoBehaviour {
 			int x = Random.Range(3, 10);
 			int z = blockCount/(x * y);
 
-			Transform newObj = HexahedronFiller.FillHexahedron(x, y, z, Random.Range(0.4f, 0.95f), 0.25f, 2).transform;
+			Transform newObj = HexahedronFiller.FillHexahedron(x, y, z, 1 /*Random.Range(0.4f, 0.95f)*/, 0.25f, 2).transform;
 			ResetObject(newObj);
 			ActiveObjects.Add(newObj);
 		}
@@ -63,6 +64,8 @@ public class WorldBuilder : MonoBehaviour {
 
 	void ResetObject(Transform _obj) {
 		Vector2 inCirlce = Random.insideUnitCircle.normalized * (InfluenceDistance - 5);
+		float scale = _obj.localScale.y * Random.Range(0.3f, 2.0f);
+		_obj.localScale = new Vector3(scale, scale, scale);
 		_obj.position = Player.position + new Vector3(inCirlce.x, _obj.localScale.y/2 - Player.position.y, inCirlce.y);
 		_obj.localEulerAngles = new Vector3(0, Random.Range(0, 360), 0);
 	}
