@@ -212,7 +212,11 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+Assembly*
 Library
+Assets/Editor*
+Assets/Standard Assets*
+/*.userprefs
 /*.csproj
 /*.sln
 Temp
