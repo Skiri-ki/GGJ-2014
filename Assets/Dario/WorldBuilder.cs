@@ -133,7 +133,9 @@ public class WorldBuilder : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		for(int i = 0; i < ActiveObjects.Count; i++){
-			if( Vector3.Distance( ActiveObjects[i].position, Player.position) > InfluenceDistance + ActiveObjects[i].collider.bounds.max.magnitude) {
+			float dot = Vector3.Dot( ActiveObjects[i].position - Player.position, Player.forward);
+			dot = Mathf.Clamp(dot, 0.3f, 1);
+			if( Vector3.Distance( ActiveObjects[i].position, Player.position)  > InfluenceDistance * dot + ActiveObjects[i].collider.bounds.max.magnitude) {
 				if(timers[i] == -1)
 					timers[i] = ResetTime;
 				else if(timers[i] >= 0) {
@@ -152,14 +154,13 @@ public class WorldBuilder : MonoBehaviour {
 	void ResetObject(Transform _obj) {
 		_obj.collider.enabled = false;
 
-
-
 		float boundsMax = _obj.collider.bounds.max.magnitude/2;
+
 		Vector2 inCirlce = Random.insideUnitCircle.normalized * (InfluenceDistance - 5 + Random.Range(-10, 40));
 		inCirlce += inCirlce.normalized * boundsMax;
 
 
-		_obj.position = Player.position + new Vector3(inCirlce.x, -Player.position.y, inCirlce.y);
+		_obj.position = Player.position + new Vector3(inCirlce.x, -Player.position.y + (!_obj.rigidbody.isKinematic ? 10 : 0), inCirlce.y);
 		_obj.localEulerAngles = new Vector3(0, Random.Range(0, 360), 0);
 	}
 
