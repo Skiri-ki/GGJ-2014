@@ -29,6 +29,13 @@ public class Body : BodyPart {
 			GenerateAnchor (RandomSide(),domains);
 			anchorPoints[anchorPoints.Length-1].countofBoxes = countofBoxes;
 			break;
+		case 0:
+
+			Domain.AddComponentTypeFor(gameObject, DomainEnum.BodyAttachmentSpecialMovement);
+			Domain.AddComponentTypeFor(gameObject, DomainEnum.Visuals);
+			Domain.AddComponentTypeFor(gameObject, DomainEnum.BodyAttachment);
+			Domain.AddComponentTypeFor(gameObject, DomainEnum.Audio);
+			break;
 			
 		case 2:
 			DomainEnum [] domains2= new DomainEnum[1];
@@ -139,6 +146,15 @@ public class Body : BodyPart {
 
 		default:
 			break;
+		}
+
+		
+		int rand2 = UnityEngine.Random.Range(0,5);
+		if(rand2 ==4){
+			gameObject.AddComponentIfMissing<Rainbow>();
+		}
+		if(rand2 == 3){
+			gameObject.AddComponentIfMissing<Musician>();
 		}
 
 		GenerateBodyPartsForCreature();
@@ -260,10 +276,14 @@ public class Body : BodyPart {
 //		return anchor;
 	}
 
+	#region GenerateBodyPartsForCreature
 	public void GenerateBodyPartsForCreature(){
 		List<string> anchorTypes = new List<string>();
 		List<BodyPart> anchorTypeBodyPart = new List<BodyPart>();
-		
+
+		if(anchorPoints == null || anchorPoints.Length<=0)
+			return;
+
 		foreach (AnchorPoint anchor in anchorPoints){
 			
 			bool notYetInList = true;
@@ -330,6 +350,7 @@ public class Body : BodyPart {
 			graphics.AddComponentIfMissing<Musician>();
 		}
 	}
+	#endregion	
 
 	public void GenerateBodyParts(){
 		List<string> anchorTypes = new List<string>();

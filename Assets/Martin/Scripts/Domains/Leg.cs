@@ -15,7 +15,7 @@ public class Leg : LocomotiveExtremity {
 
 	public override DomainEnum EDomain{get{return DomainEnum.Leg;}}
 
-	void Start(){
+	void Awake(){
 		hinge = GetComponent<BodyHinge>();
 	}
 	

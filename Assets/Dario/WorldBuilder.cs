@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using GameObjectExtension;
 
 using Random = UnityEngine.Random;
 
@@ -25,7 +26,7 @@ public class WorldBuilder : MonoBehaviour {
 		int count = 0;
 
 		
-		for(int i = 0; count < 3000; i++) {
+		for(int i = 0; count < 5000; i++) {
 
 			int blockCount = 0;
 			if( i % 530 < 500 )
@@ -84,30 +85,10 @@ public class WorldBuilder : MonoBehaviour {
 			body = BuildDomain(blockCount).AddComponent<Body>();
 		}else{
 			body = BuildDomain(blockCount/(numberOfSubparts)).AddComponent<Body>();
-			body.GenerateCreature(numberOfSubparts-1,blockCount/(numberOfSubparts));
-//			BodyHinge hinge = BuildDomain(blockCount/2).AddComponent<BodyHinge>();
-//			hinge.transform.position = new Vector3(UnityEngine.Random.Range(-5,5),
-//			                                       UnityEngine.Random.Range(-3,3),
-//			                                       UnityEngine.Random.Range(-5,5));
 		}
-//
-//		List<int> blockCountForPart = new List<int>();
-//		
-//		for (int i = 0; 0 < blockCount && i < numberOfSubparts-1; i++) {
-//			blockCountForPart.Add(Random.Range(1,blockCount));
-//			blockCount -= blockCountForPart[i];
-//		}
-//		if(blockCount>0){
-//			blockCountForPart.Add(blockCount);
-//		}
-//		List<GameObject> objects = new List<GameObject>();
-//		
-//		foreach (int count in blockCountForPart) {
-//			objects.Add(BuildDomain(count));
-//		}
-
-//		objects[0].AddComponent<Body>();
 		
+		body.GenerateCreature(numberOfSubparts-1,blockCount/(numberOfSubparts));
+
 		return body.gameObject;
 	}
 
