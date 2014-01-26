@@ -78,7 +78,7 @@ public class MelodyMachine
 
 	System.Random random;
 
-	public double CurrentFrequency { get { return currentState != null ? currentState.Note.GetFrequency(CurrentTranspose) : 440; }}
+	public double CurrentFrequency { get { return currentState != null ? currentState.Note.GetFrequency(CurrentTranspose + transposeIndex) : 440; }}
 	public Note CurrentNote { get { return currentState.Note; }}
 	
 	public MelodyMachine ( List<Note> _notes, List<MelodyTansitionInfo> _transitions )
@@ -120,6 +120,12 @@ public class MelodyMachine
 		transposeIndex = _steps;
 	}
 
+	public void SetOctave(uint _octave) {
+		uint baseOctave = states[0].Note.Octave;
+		foreach(var state in states) {
+			state.Note.Octave = state.Note.Octave - baseOctave + _octave;
+		}
+	}
 
 	public void Next() {
 		float rand = (float)random.NextDouble();
