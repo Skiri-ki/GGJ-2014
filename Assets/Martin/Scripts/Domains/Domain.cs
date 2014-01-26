@@ -39,8 +39,8 @@ public abstract  class Domain : MonoBehaviour {
 			}
 
 		case DomainEnum.BodyAttachment:
-			int randomBodyAttackment = UnityEngine.Random.Range(0,4);
-			switch (randomBodyAttackment) {
+			int randomBodyAttachment = UnityEngine.Random.Range(0,4);
+			switch (randomBodyAttachment) {
 //			case 0:
 //				return obj.AddComponentIfMissing<Musician>();
 			default:
@@ -49,10 +49,10 @@ public abstract  class Domain : MonoBehaviour {
 			
 		case DomainEnum.BodyAttachmentSpecialMovement:
 			
-			int randomBodyAttackmentSpecialMovement = UnityEngine.Random.Range(0,4);
-			switch (randomBodyAttackmentSpecialMovement) {
-//			case 0:
-//				return obj.AddComponentIfMissing<Musician>();
+			int randomBodyAttachmentSpecialMovement = UnityEngine.Random.Range(0,8);
+			switch (randomBodyAttachmentSpecialMovement) {
+			case 0:
+				return obj.AddComponentIfMissing<Hover>();
 			default:
 				return obj.AddComponentIfMissing<Transform>();
 			}

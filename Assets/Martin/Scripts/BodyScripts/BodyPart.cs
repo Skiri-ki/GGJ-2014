@@ -93,8 +93,8 @@ public abstract class BodyPart : Domain {
 
 	protected virtual IEnumerator SlowStart(){
 		rigidbody.drag = 10;
-		yield return new WaitForSeconds(1.0f);
-		rigidbody.drag = 0;
+		yield return new WaitForSeconds(2.0f);
+		rigidbody.drag = 0.4f;
 	}
 
 	public static Vector3 FindOffset(GameObject obj, Vector3 side, Rigidbody rigidTo, Rigidbody rigidFrom){

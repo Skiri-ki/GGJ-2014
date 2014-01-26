@@ -9,19 +9,19 @@ public class PaintGun : Domain {
 
 	// Use this for initialization
 	void Start () {
-		CHANGE_TIME = Random.Range(1f, 10f);
+		CHANGE_TIME = Random.Range(0.5f, 1f);
 		timer = CHANGE_TIME;
 		name += "PaintGun";
 	}
 	
 	// Update is called once per frame
 	void OnCollisionEnter (Collision coll) {
-		timer -= Time.deltaTime;
-		if (timer < 0f) {
+//		timer -= Time.deltaTime;
+//		if (timer < 0f) {
 		DomainEditors.ChangeColor(DomainEditors.getRandColor(), this.gameObject);
 		DomainEditors.ChangeColor(this.gameObject.GetComponentInChildren<Renderer>().material.color, coll.gameObject);
 			
-			timer = CHANGE_TIME;
-		}
+//			timer = CHANGE_TIME;
+//		}
 	}
 }
