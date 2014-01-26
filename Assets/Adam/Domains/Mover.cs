@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Spinner : MonoBehaviour {
-	float MIN_FORCE = 5f, MAX_FORCE = 10f;
+public class Mover : MonoBehaviour {
+	float MIN_FORCE = 1f, MAX_FORCE = 10f;
 	Vector3 direction;
 	
 	// Use this for initialization
@@ -14,6 +14,6 @@ public class Spinner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		this.rigidbody.AddForce (direction);
+		this.rigidbody.AddForce (direction * Time.deltaTime);
 	}
 }

@@ -18,8 +18,6 @@ public class GenerateStuff : MonoBehaviour {
 		
 		BodyPart.ConnectBodyParts<HingeJoint> (hex1, hex2);
 		BodyPart.ConnectBodyParts<HingeJoint> (hex1, hex3);
-
-		BodyPart.ConnectBodyParts<SpringJoint> (hex1, hex2).transform.Translate(Vector3.back * 10f);
 	}
 
 	void generateJumper() {
@@ -28,9 +26,12 @@ public class GenerateStuff : MonoBehaviour {
 		DomainEditors.ChangeColor (color, hex1);
 		GameObject hex2 = HexahedronFiller.FillHexahedron (2, 4, 5, 0.7f, 0.4f, 3);
 		DomainEditors.ChangeColor (color, hex2);
+		hex2.transform.Translate(Vector3.left * 20f);
 		hex2.AddComponent<Jumper> ();
 		
-		BodyPart.ConnectBodyParts<SpringJoint> (hex1, hex2).transform.Translate(Vector3.left * 10f);
+		BodyPart.ConnectBodyParts<HingeJoint> (hex1, hex2);
+		hex1.transform.Translate(Vector3.left * 10f);
+		hex2.transform.Translate(Vector3.left * 10f);
 	}
 
 	void generateFlyer() {
@@ -39,16 +40,20 @@ public class GenerateStuff : MonoBehaviour {
 		DomainEditors.ChangeColor (color, hex1);
 		GameObject hex2 = HexahedronFiller.FillHexahedron (2, 4, 5, 0.7f, 0.4f, 0);
 		DomainEditors.ChangeColor (color, hex2);
+		hex2.transform.Translate(Vector3.left * 20f);
 		hex2.AddComponent<Flyer> ();
 		
-		BodyPart.ConnectBodyParts<SpringJoint> (hex1, hex2).transform.Translate(Vector3.forward * 10f);
+		BodyPart.ConnectBodyParts<HingeJoint> (hex1, hex2);
+		hex1.transform.Translate(Vector3.right * 10f);
+		hex2.transform.Translate(Vector3.right * 10f);
 	}
 
 	void generateJuggler() {
 		Color color = DomainEditors.getRandColor ();
 		GameObject hex1 = HexahedronFiller.FillHexahedron (8, 5, 5, 0.99f, 0.25f, 1);
 		DomainEditors.ChangeColor (color, hex1);
-		hex1.AddComponent<Juggler> ().transform.Translate(Vector3.right * 15f);
+		hex1.AddComponent<Juggler> ();
+		hex1.transform.Translate(Vector3.forward * 10f);
 	}
 
 	void generateTwitcher() {
@@ -57,9 +62,12 @@ public class GenerateStuff : MonoBehaviour {
 		DomainEditors.ChangeColor (color, hex1);
 		GameObject hex2 = HexahedronFiller.FillHexahedron (5, 4, 5, 1f, 0.8f, 5);
 		DomainEditors.ChangeColor (color, hex2);
+		hex2.transform.Translate(Vector3.left * 20f);
 		hex2.AddComponent<Twitcher> ();
 		
-		BodyPart.ConnectBodyParts<HingeJoint> (hex1, hex2).transform.Translate(Vector3.right * 10f);
+		BodyPart.ConnectBodyParts<HingeJoint> (hex1, hex2);
+		hex1.transform.Translate(Vector3.right * 10f);
+		hex2.transform.Translate(Vector3.right * 10f);
 	}
 
 	void generateRainbow() {
@@ -68,9 +76,12 @@ public class GenerateStuff : MonoBehaviour {
 		DomainEditors.ChangeColor (color, hex1);
 		GameObject hex2 = HexahedronFiller.FillHexahedron (5, 4, 5, 1f, 0.8f, 5);
 		DomainEditors.ChangeColor (color, hex2);
+		hex2.transform.Translate(Vector3.left * 5f);
 		hex2.AddComponent<Rainbow> ();
 		
-		BodyPart.ConnectBodyParts<HingeJoint> (hex1, hex2).transform.Translate(Vector3.back * 20f);
+		BodyPart.ConnectBodyParts<HingeJoint> (hex1, hex2);
+		hex1.transform.Translate(Vector3.forward * 20f);
+		hex2.transform.Translate(Vector3.forward * 20f);
 	}
 
 	void generateMusician() {
@@ -78,30 +89,35 @@ public class GenerateStuff : MonoBehaviour {
 		GameObject hex2 = HexahedronFiller.FillHexahedron (5, 4, 5, 1f, 0.8f, 5);
 		DomainEditors.ChangeColor (color, hex2);
 		hex2.AddComponent<Musician> ();
+
 		hex2.transform.Translate (Vector3.right * 20f);
 	}
 
-	void generateSpinner() {
+	void generateMover() {
 		Color color = DomainEditors.getRandColor ();
 		GameObject hex1 = HexahedronFiller.FillHexahedron (6, 3, 3, 0.95f, 0.25f, 2);
 		DomainEditors.ChangeColor (color, hex1);
 		GameObject hex2 = HexahedronFiller.FillHexahedron (5, 4, 5, 1f, 0.8f, 5);
 		DomainEditors.ChangeColor (color, hex2);
-		hex2.AddComponent<Spinner> ();
+		hex2.transform.Translate(Vector3.left * 20f);
+		hex2.AddComponent<Mover> ();
 		
-		BodyPart.ConnectBodyParts<HingeJoint> (hex1, hex2).transform.Translate(Vector3.left * 20f);
+		BodyPart.ConnectBodyParts<HingeJoint> (hex1, hex2);
+		hex1.transform.Translate(Vector3.left * 30f);
+		hex2.transform.Translate(Vector3.left * 30f);
 	}
 
 	// Use this for initialization
 	void Start () {
-	    generateWalker ();
+	    /*generateWalker ();
 		generateJumper ();
-		generateFlyer ();
+
 		generateJuggler ();
 		generateTwitcher ();
 		generateRainbow ();
-		generateMusician ();
-		generateSpinner();
+		generateMusician ();*/ 
+		generateFlyer ();
+		generateMover();
 	}
 	
 	// Update is called once per frame
