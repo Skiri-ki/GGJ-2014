@@ -155,10 +155,12 @@ public class Body : BodyPart {
 		
 		int rand2 = UnityEngine.Random.Range(0,100);
 		if(rand2 <= 20){
-			gameObject.AddComponentIfMissing<Rainbow>();
+			//			gameObject.AddComponentIfMissing<Rainbow>();
+			Domain.AddComponentTypeFor(gameObject, DomainEnum.Visuals);
 		}
 		if(rand2 >= 21 && rand2 < 30){
-			gameObject.AddComponentIfMissing<Musician>();
+			//			gameObject.AddComponentIfMissing<Musician>();
+			Domain.AddComponentTypeFor(gameObject, DomainEnum.Audio);
 		}
 
 		GenerateBodyPartsForCreature();

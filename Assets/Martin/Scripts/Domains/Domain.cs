@@ -30,9 +30,6 @@ public abstract  class Domain : MonoBehaviour {
 			case 1:
 				obj.name += "PaintGun";
 				return obj.AddComponentIfMissing<PaintGun>();
-			case 2:
-				obj.name += "Juggler";
-				return obj.AddComponentIfMissing<Juggler>();
 			default:
 				return obj.AddComponentIfMissing<Transform>();
 			}
@@ -67,6 +64,9 @@ public abstract  class Domain : MonoBehaviour {
 			case 1:
 				obj.name += "Jumper";
 				return obj.AddComponentIfMissing<Jumper>();
+			case 2:
+				obj.name += "Juggler";
+				return obj.AddComponentIfMissing<Juggler>();
 			default:
 				return obj.AddComponentIfMissing<Transform>();
 			}
