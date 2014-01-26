@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Musician : MonoBehaviour {
-
+public class Musician : Domain {
+	
+	public override DomainEnum EDomain{get{return DomainEnum.Audio;}}
 	// Use this for initialization
 	void Start () {
 	

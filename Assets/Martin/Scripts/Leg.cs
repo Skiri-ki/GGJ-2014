@@ -13,7 +13,7 @@ public class Leg : LocomotiveExtremity {
 
 	protected BodyHinge hinge;
 
-	public override BodyPartDomain BodyDomain{get{return BodyPartDomain.Leg;}}
+	public override DomainEnum EDomain{get{return DomainEnum.Leg;}}
 
 	void Start(){
 		hinge = GetComponent<BodyHinge>();
@@ -32,21 +32,21 @@ public class Leg : LocomotiveExtremity {
 		if(Time.time%(swingFrequenzyForwardMovement+swingFrequenzyBackMovement)<swingFrequenzyForwardMovement)
 		{
 			//			leghJoint.rigidbody.AddRelativeForce(Vector3.forward * swingForceForwardMovement);
-			hinge.HJoint.useMotor= true;
-			hinge.HJoint.useLimits = true;
+			hinge.assignInEditorHinge.useMotor= true;
+			hinge.assignInEditorHinge.useLimits = true;
 			JointMotor motor = new JointMotor();
 			motor.targetVelocity = swingForceForwardMovement;
 			motor.force = swingForceForwardMovement;
-			hinge.HJoint.motor = motor;
+			hinge.assignInEditorHinge.motor = motor;
 //			Debug.Log("for");
 	
 		}else{
-			hinge.HJoint.useMotor= true;
-			hinge.HJoint.useLimits = true;
+			hinge.assignInEditorHinge.useMotor= true;
+			hinge.assignInEditorHinge.useLimits = true;
 			JointMotor motor = new JointMotor();
 			motor.targetVelocity = -swingForceBackMovement;
 			motor.force = swingForceBackMovement;
-			hinge.HJoint.motor = motor;
+			hinge.assignInEditorHinge.motor = motor;
 //			leghJoint.rigidbody.AddRelativeForce(Vector3.forward * -swingForceBackMovement);
 //			Debug.Log("Back");
 			

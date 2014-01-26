@@ -7,19 +7,6 @@ using GameObjectExtension;
 
 //[RequireComponent(typeof(Rigidbody))]
 public abstract class BodyPart : Domain {
-//	public virtual AnchorPoint [] anchorPoints;
-
-	public enum BodyPartDomain{
-		Body,
-		LocomotiveExtremity,
-		Arm,
-		Leg,
-		Tail,
-		Head,
-		BodyJoint
-		//...
-	}
-	public abstract BodyPartDomain BodyDomain{get;}
 	/// <summary>
 	/// Connects the body parts.
 	/// </summary>
@@ -27,13 +14,13 @@ public abstract class BodyPart : Domain {
 	/// <param name="objA">Object a.</param>
 	/// <param name="objB">Object b.</param>
 	/// <typeparam name="T">The 1st type parameter.</typeparam>
-	public static GameObject ConnectBodyParts<T>(GameObject objA, GameObject objB) where T : Joint{
+	public static GameObject ConnectBodyParts(GameObject objA, GameObject objB){
         Body body = objA.AddComponentIfMissing<Body>();
-		BodyJoint jointPart = null;
-		if(typeof(T) == typeof(HingeJoint)) 
+		BodyHinge jointPart = null;
+//		if(typeof(T) == typeof(HingeJoint)) 
 			jointPart = objB.AddComponentIfMissing<BodyHinge>();
-		else
-			jointPart = objB.AddComponentIfMissing<BodyJoint>();
+//		else
+//			jointPart = objB.AddComponentIfMissing<BodyJoint>();
 		
 		//first calculate the Distance
 		Vector3 posA = GetPosition(objA);
@@ -70,15 +57,15 @@ public abstract class BodyPart : Domain {
 		objB.transform.position = objA.transform.position + offsetToA + offsetToB;
 		
 		//add the joint
-		
-		Joint joint = objB.AddComponent<T>() as Joint;
-		joint.anchor = side * 0.5f;
-		joint.axis = side;
+//		if(jointPart.BJoint 
+//		Joint joint = objB.AddComponentIfMissing<T>() as Joint;
+		jointPart.assignInEditorHinge.anchor = side*1;
+		jointPart.assignInEditorHinge.axis = side;
 		
 		//connect the joint with it's parent and parent it
 		
-		joint.connectedBody = rigidA;
-//		objB.transform.parent = objA.transform;
+		jointPart.assignInEditorHinge.connectedBody = rigidA;
+		objB.transform.parent = objA.transform;
 
 
 		body.StartCoroutine("SlowStart");
@@ -110,7 +97,7 @@ public abstract class BodyPart : Domain {
 		rigidbody.drag = 0;
 	}
 
-	private static Vector3 FindOffset(GameObject obj, Vector3 side, Rigidbody rigidTo, Rigidbody rigidFrom){
+	public static Vector3 FindOffset(GameObject obj, Vector3 side, Rigidbody rigidTo, Rigidbody rigidFrom){
 		Vector3 offset; 
 		if(obj.collider != null){
 			bool previousCollState = obj.collider.enabled;

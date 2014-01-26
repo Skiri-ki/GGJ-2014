@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +15,10 @@ public class BodyPartPrefabCollection : MonoBehaviour {
 		COLLECTION = this;
 	}
 
-	public List<BodyPart> GetPrefabs(BodyPart.BodyPartDomain domain){
+	public List<BodyPart> GetPrefabs(BodyPart.DomainEnum domain){
 		IEnumerable<BodyPart> partQuerry =
 			from prefab in prefabs
-				where prefab.BodyDomain == domain
+				where prefab.EDomain == domain
 				select prefab;
 
 		List<BodyPart> foundPrefabs = new List<BodyPart>();

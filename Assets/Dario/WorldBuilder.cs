@@ -7,6 +7,11 @@ using Random = UnityEngine.Random;
 public class WorldBuilder : MonoBehaviour {
 
 	public Transform Player;
+	public GameObject cube;
+	public static WorldBuilder builder;
+	void Awake(){
+		builder = this;
+	}
 
 	public List<Transform> ActiveObjects;
 
@@ -20,17 +25,18 @@ public class WorldBuilder : MonoBehaviour {
 		int count = 0;
 
 		
-		for(int i = 0; count < 10000; i++) {
+		for(int i = 0; count < 3000; i++) {
 
 			int blockCount = 0;
 			if( i % 530 < 500 )
-				blockCount = 10;
+				blockCount = 40;
 			else if (i % 530 < 525)
 				blockCount = 200;
 			else
 				blockCount = 1000;
 
-			Transform newObj=BuildEntity(blockCount).transform;
+//			Transform newObj=BuildEntity(blockCount).transform;
+			Transform newObj=BuildCreature(blockCount).transform;
 			count += blockCount;
 			if(newObj.childCount != 0)  {
 				ResetObject(newObj);
@@ -70,16 +76,54 @@ public class WorldBuilder : MonoBehaviour {
 		return GenerateCreature.GenerateFromParts(objects).gameObject;
 	}
 
+	private GameObject BuildCreature(int blockCount){
+		int numberOfSubparts = UnityEngine.Random.Range(1,6);
+		Body body = null;
 
-	private GameObject BuildDomain(int blockCount){
-		int y = Random.Range( 3, Math.Min(10, blockCount / 3));
+		if(numberOfSubparts==1){
+			body = BuildDomain(blockCount).AddComponent<Body>();
+		}else{
+			body = BuildDomain(blockCount/(numberOfSubparts)).AddComponent<Body>();
+			body.GenerateCreature(numberOfSubparts-1,blockCount/(numberOfSubparts));
+//			BodyHinge hinge = BuildDomain(blockCount/2).AddComponent<BodyHinge>();
+//			hinge.transform.position = new Vector3(UnityEngine.Random.Range(-5,5),
+//			                                       UnityEngine.Random.Range(-3,3),
+//			                                       UnityEngine.Random.Range(-5,5));
+		}
+//
+//		List<int> blockCountForPart = new List<int>();
+//		
+//		for (int i = 0; 0 < blockCount && i < numberOfSubparts-1; i++) {
+//			blockCountForPart.Add(Random.Range(1,blockCount));
+//			blockCount -= blockCountForPart[i];
+//		}
+//		if(blockCount>0){
+//			blockCountForPart.Add(blockCount);
+//		}
+//		List<GameObject> objects = new List<GameObject>();
+//		
+//		foreach (int count in blockCountForPart) {
+//			objects.Add(BuildDomain(count));
+//		}
+
+//		objects[0].AddComponent<Body>();
+		
+		return body.gameObject;
+	}
+
+	public static GameObject BuildDomain(int blockCount){
+		return BuildDomain(blockCount, UnityEngine.Random.seed);
+	}
+	public static GameObject BuildDomain(int blockCount, int seed){
+		UnityEngine.Random.seed = seed;
+		int y = UnityEngine.Random.Range( 3, Math.Min(10, blockCount / 3));
 		int area = blockCount / y;
-		int z = Random.Range( 1, (int)Mathf.Sqrt(area));
+		int z = UnityEngine.Random.Range( 1, (int)Mathf.Sqrt(area));
 		int x = area/z;
 
-		x= Mathf.Max(x,1);
-		y= Mathf.Max(y,1);
-		z= Mathf.Max(z,1);
+		x= Mathf.Max(x,2);
+		y= Mathf.Max(y,2);
+		z= Mathf.Max(z,2);
 		
 		GameObject generatedObj = HexahedronFiller.FillHexahedron(x, y, z, 1 /*Random.Range(0.4f, 0.95f)*/, 0.25f, 2);
 

@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class Tail : BodyPart {
 	
-	public override BodyPartDomain BodyDomain{get{return BodyPartDomain.Tail;}}
+	public override DomainEnum EDomain{get{return DomainEnum.Tail;}}
 
 //	Transform anker;
 	public TailPart basePart;

@@ -16,8 +16,8 @@ public class GenerateStuff : MonoBehaviour {
 		hex3.transform.Translate(Vector3.right * 20f);
 		hex3.AddComponent<Rotator> ();
 		
-		BodyPart.ConnectBodyParts<HingeJoint> (hex1, hex2);
-		BodyPart.ConnectBodyParts<HingeJoint> (hex1, hex3);
+		BodyPart.ConnectBodyParts (hex1, hex2);
+		BodyPart.ConnectBodyParts (hex1, hex3);
 	}
 
 	void generateJumper() {
@@ -29,7 +29,7 @@ public class GenerateStuff : MonoBehaviour {
 		hex2.transform.Translate(Vector3.left * 20f);
 		hex2.AddComponent<Jumper> ();
 		
-		BodyPart.ConnectBodyParts<HingeJoint> (hex1, hex2);
+		BodyPart.ConnectBodyParts  (hex1, hex2);
 		hex1.transform.Translate(Vector3.left * 10f);
 		hex2.transform.Translate(Vector3.left * 10f);
 	}
@@ -43,7 +43,7 @@ public class GenerateStuff : MonoBehaviour {
 		hex2.transform.Translate(Vector3.left * 20f);
 		hex2.AddComponent<Flyer> ();
 		
-		BodyPart.ConnectBodyParts<HingeJoint> (hex1, hex2);
+		BodyPart.ConnectBodyParts  (hex1, hex2);
 		hex1.transform.Translate(Vector3.right * 10f);
 		hex2.transform.Translate(Vector3.right * 10f);
 	}
@@ -65,7 +65,7 @@ public class GenerateStuff : MonoBehaviour {
 		hex2.transform.Translate(Vector3.left * 20f);
 		hex2.AddComponent<Twitcher> ();
 		
-		BodyPart.ConnectBodyParts<HingeJoint> (hex1, hex2);
+		BodyPart.ConnectBodyParts  (hex1, hex2);
 		hex1.transform.Translate(Vector3.right * 10f);
 		hex2.transform.Translate(Vector3.right * 10f);
 	}
@@ -79,7 +79,7 @@ public class GenerateStuff : MonoBehaviour {
 		hex2.transform.Translate(Vector3.left * 5f);
 		hex2.AddComponent<Rainbow> ();
 		
-		BodyPart.ConnectBodyParts<HingeJoint> (hex1, hex2);
+		BodyPart.ConnectBodyParts  (hex1, hex2);
 		hex1.transform.Translate(Vector3.forward * 20f);
 		hex2.transform.Translate(Vector3.forward * 20f);
 	}
@@ -102,7 +102,7 @@ public class GenerateStuff : MonoBehaviour {
 		hex2.transform.Translate(Vector3.left * 20f);
 		hex2.AddComponent<Mover> ();
 		
-		BodyPart.ConnectBodyParts<HingeJoint> (hex1, hex2);
+		BodyPart.ConnectBodyParts  (hex1, hex2);
 		hex1.transform.Translate(Vector3.left * 30f);
 		hex2.transform.Translate(Vector3.left * 30f);
 	}

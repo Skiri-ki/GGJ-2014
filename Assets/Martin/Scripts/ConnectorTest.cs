@@ -7,6 +7,6 @@ public class ConnectorTest : MonoBehaviour {
 	public GameObject objB;
 
 	void Start () {
-		BodyPart.ConnectBodyParts<HingeJoint>(objA,objB);
+		BodyPart.ConnectBodyParts(objA,objB);
 	}
 }

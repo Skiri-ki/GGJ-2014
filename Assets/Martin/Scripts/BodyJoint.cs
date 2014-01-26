@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using GameObjectExtension;
 
@@ -22,7 +22,7 @@ public class BodyJoint : BodyPart {
 		joint.connectedBody = body;
 	}
 	
-	public override BodyPartDomain BodyDomain{get{return BodyPartDomain.BodyJoint;}}
+	public override DomainEnum EDomain{get{return DomainEnum.BodyJoint;}}
 
 	// Use this for initialization
 	public void Init () {

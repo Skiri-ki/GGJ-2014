@@ -26,6 +26,7 @@ public class HexahedronFiller : MonoBehaviour {
 						continue;
 
 					GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+//					GameObject cube = GameObject.Instantiate(WorldBuilder.builder.cube) as GameObject;
 					// Destroy(cube.GetComponent<BoxCollider>());
 					cube.transform.Translate(new Vector3(x + 0.5f,y + 0.5f, z + 0.5f));
 					cube.transform.localScale = local_scale;
@@ -33,13 +34,12 @@ public class HexahedronFiller : MonoBehaviour {
 				}
 			}
 		}
-
-		bool previousCollState = holder.collider.enabled;
-		holder.collider.enabled=true;
+		holder.collider.enabled = true;
 			
+
 		GameObject center = new GameObject("Center" + holder.name);
 		center.transform.position = holder.collider.bounds.center;
-		center.transform.localScale = holder.collider.bounds.extents *2;
+//		center.transform.localScale = holder.collider.bounds.extents *2;
 		Transform [] childs = holder.GetComponentsInChildren<Transform>();
 		for (int i = 0; i < childs.Length; i++) {
 
@@ -48,6 +48,8 @@ public class HexahedronFiller : MonoBehaviour {
 			childs[i].parent = center.transform;
 		}
 		center.AddComponent<BoxCollider>();
+		center.GetComponent<BoxCollider>().size = holder.GetComponent<BoxCollider>().size;
+//		center.GetComponent<BoxCollider>().center = holder.GetComponent<BoxCollider>().center;
 		center.collider.enabled=false;
 		GameObject.Destroy(holder);
 		return center;

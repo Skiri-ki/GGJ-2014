@@ -26,7 +26,7 @@ public class GenerateCreature : MonoBehaviour {
 			int partIndex = Random.Range(0,parts.Count);
 			GameObject partObj = parts[partIndex];
 			parts.RemoveAt(partIndex);
-			BodyPart.ConnectBodyParts<HingeJoint>(bodyObj,partObj);
+			BodyPart.ConnectBodyParts(bodyObj,partObj);
 			
 			bodyParts.Add(partObj.GetComponent<BodyHinge>());
 

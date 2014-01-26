@@ -5,11 +5,13 @@ using System.Collections;
 //[Serializable]
 public class AnchorPoint : MonoBehaviour  {
 //	public Transform anchorPoint;
-	public BodyPart.BodyPartDomain [] acceptableParts;
+	public BodyPart.DomainEnum [] acceptableParts;
+	public int countofBoxes;
+	public int seed;
 	public string AnchorType{
 		get{
 			string type = "";
-			foreach (BodyPart.BodyPartDomain domain in acceptableParts) {
+			foreach (BodyPart.DomainEnum domain in acceptableParts) {
 				type += domain.ToString();
 			}
 			return type;

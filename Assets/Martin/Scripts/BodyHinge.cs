@@ -4,6 +4,7 @@ using GameObjectExtension;
 //
 public class BodyHinge : BodyJoint {
 //	protected Joint joint;
+	public HingeJoint assignInEditorHinge;
 	protected HingeJoint hJoint;
 	public override Joint BJoint{
 		get{
@@ -29,21 +30,27 @@ public class BodyHinge : BodyJoint {
 		joint.connectedBody = body;
 	}
 	
-	public override BodyPartDomain BodyDomain{get{return BodyPartDomain.BodyJoint;}}
+	public override DomainEnum EDomain{get{return DomainEnum.BodyJoint;}}
 	
 	// Use this for initialization
 	public new void Init () {
+		if(assignInEditorHinge){
+			HJoint = assignInEditorHinge;
+			BJoint = assignInEditorHinge;
+			joint = assignInEditorHinge;
+			hJoint = assignInEditorHinge;
+		}
 		Debug.Log("Init 1: "+ joint);
 		if(joint == null)
-			joint = transform.GetComponent<HingeJoint>();
+			HJoint = transform.GetComponent<HingeJoint>();
 		Debug.Log("Init 2: "+ joint);
 
 		if(joint == null)
-			joint = transform.GetComponentInChildren<HingeJoint>();
+			HJoint = transform.GetComponentInChildren<HingeJoint>();
 		
 		Debug.Log("Init 3: "+ joint);
-		if(joint == null)
-			joint = gameObject.AddComponentIfMissing<HingeJoint>();
+		if(HJoint == null)
+			HJoint = gameObject.AddComponentIfMissing<HingeJoint>();
 		Debug.Log("Init 4: "+ joint);
 	}
 	
