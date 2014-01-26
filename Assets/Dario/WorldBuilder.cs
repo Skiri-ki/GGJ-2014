@@ -26,7 +26,7 @@ public class WorldBuilder : MonoBehaviour {
 		int count = 0;
 
 		
-		for(int i = 0; count < 20000; i++) {
+		for(int i = 0; count < 15000; i++) {
 
 			int blockCount = 0;
 			if( i % 60 < 30 )
@@ -41,8 +41,7 @@ public class WorldBuilder : MonoBehaviour {
 			if(Random.value < 90.0f/(blockCount))
 				newObj=BuildCreature(blockCount).transform;
 			else {
-				newObj = BuildDomain(blockCount, Random.Range(0, 100000)).AddComponent<Body>().transform;
-				newObj.rigidbody.isKinematic = true;
+				newObj = BuildDomain(blockCount, Random.Range(0, 100000)).transform;
 				isDomain = true;
 			}
 				
@@ -67,6 +66,8 @@ public class WorldBuilder : MonoBehaviour {
 		}
 
 		timers = new float[ActiveObjects.Count];
+
+		StartCoroutine(ResetDelay());
 	}
 
 	private GameObject BuildEntity(int blockCount){
@@ -129,6 +130,8 @@ public class WorldBuilder : MonoBehaviour {
 		return generatedObj;
 	}
 
+	
+	Queue <Transform> resetQueue = new Queue<Transform>();
 
 	// Update is called once per frame
 	void Update () {
@@ -142,12 +145,35 @@ public class WorldBuilder : MonoBehaviour {
 					timers[i] -= Time.deltaTime;
 					if(timers[i] <= 0) {
 						timers[i] = -1;
-						ResetObject(ActiveObjects[i]);
+						resetQueue.Enqueue(ActiveObjects[i]);
+//						ResetObject(ActiveObjects[i]);
 					}
 				}
 			} else {
 				timers[i] = -1;
 			}
+		}
+	}
+
+	System.Collections.IEnumerator ResetDelay(){
+		while(true){
+			if(resetQueue.Count >0){
+				Transform trans = resetQueue.Dequeue();
+				bool setKinematicBack = false;
+				if(trans.rigidbody && !trans.rigidbody.isKinematic){
+					trans.rigidbody.isKinematic = true;
+					ResetObject(trans);
+					setKinematicBack=true;
+				}else
+					ResetObject(trans);
+
+				yield return new WaitForSeconds(0.1f);
+
+				if(setKinematicBack)
+					trans.rigidbody.isKinematic = false;
+
+			}
+			yield return new WaitForSeconds(0.3f);
 		}
 	}
 
@@ -160,8 +186,9 @@ public class WorldBuilder : MonoBehaviour {
 		inCirlce += inCirlce.normalized * boundsMax;
 
 
-		_obj.position = Player.position + new Vector3(inCirlce.x, -Player.position.y + (!_obj.rigidbody.isKinematic ? 10 : 0), inCirlce.y);
-		_obj.localEulerAngles = new Vector3(0, Random.Range(0, 360), 0);
+		_obj.position = Player.position + new Vector3(inCirlce.x, -Player.position.y + (!_obj.rigidbody ? 5 : 0), inCirlce.y);
+		if(!_obj.rigidbody)
+			_obj.localEulerAngles = new Vector3(0, Random.Range(0, 360), 0);
 	}
 
 	Color RandomColor() {

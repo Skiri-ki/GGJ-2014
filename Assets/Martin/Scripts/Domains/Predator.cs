@@ -12,7 +12,7 @@ public class Predator : Domain {
 		}
 	}
 	
-	// Update is called once per frame
+//	 Update is called once per frame
 	void OnCollisionEnter (Collision coll) {
 		if(coll.gameObject.tag != "Predator" && 
 		   coll.gameObject.tag != "Ground" &&

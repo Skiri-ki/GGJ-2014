@@ -88,7 +88,8 @@ public class Instrument : MonoBehaviour {
 		// update increment in case frequency has changed
 		double increment = 1.0f / sampling_frequency;
 
-		generator.frequency = machine.CurrentFrequency; 
+		if(machine != null)
+			generator.frequency = machine.CurrentFrequency; 
 
 		for (var i = 0; i < data.Length; i = i + channels)
 		{
