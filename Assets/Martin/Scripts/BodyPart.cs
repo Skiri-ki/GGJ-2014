@@ -79,7 +79,10 @@ public abstract class BodyPart : Domain {
 		
 		joint.connectedBody = rigidA;
 //		objB.transform.parent = objA.transform;
-		
+
+
+		body.StartCoroutine("SlowStart");
+		jointPart.StartCoroutine("SlowStart");
 		
 		return objA;
 	}
@@ -98,6 +101,13 @@ public abstract class BodyPart : Domain {
 			pos = obj.renderer.bounds.center;
 		}
 		return pos;
+
+	}
+
+	protected virtual IEnumerator SlowStart(){
+		rigidbody.drag = 10;
+		yield return new WaitForSeconds(1.0f);
+		rigidbody.drag = 0;
 	}
 
 	private static Vector3 FindOffset(GameObject obj, Vector3 side, Rigidbody rigidTo, Rigidbody rigidFrom){
