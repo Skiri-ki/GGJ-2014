@@ -149,11 +149,11 @@ public class Body : BodyPart {
 		}
 
 		
-		int rand2 = UnityEngine.Random.Range(0,5);
-		if(rand2 ==4){
+		int rand2 = UnityEngine.Random.Range(0,100);
+		if(rand2 <= 20){
 			gameObject.AddComponentIfMissing<Rainbow>();
 		}
-		if(rand2 == 3){
+		if(rand2 == 21){
 			gameObject.AddComponentIfMissing<Musician>();
 		}
 
@@ -341,12 +341,12 @@ public class Body : BodyPart {
 		graphics.transform.parent = part.assignInEditorHinge.transform;
 
 		//add some funn stuff:
-		int rand = UnityEngine.Random.Range(0,5);
-		if(rand == 3 || rand ==4){
+		int rand = UnityEngine.Random.Range(0,100);
+		if(rand <= 40){
 			graphics.AddComponentIfMissing<Rainbow>();
 		}
 		
-		if(rand == 2){
+		if(rand == 41){
 			graphics.AddComponentIfMissing<Musician>();
 		}
 	}
