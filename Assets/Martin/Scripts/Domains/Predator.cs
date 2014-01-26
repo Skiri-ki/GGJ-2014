@@ -40,7 +40,7 @@ public class Predator : Domain {
 		
 		while(obj.transform.localScale.magnitude>0.1f){
 			yield return new WaitForEndOfFrame();
-			obj.transform.localScale = Vector3.Lerp(startSize,Vector3.zero,(Time.time-startTime)/duration);
+			obj.transform.localScale = Vector3.Lerp(startSize,Vector3.one*0.1f,(Time.time-startTime)/duration);
 		}
 		obj.transform.position = obj.transform.position + Vector3.up*30 + Vector3.right *100;
 		yield return new WaitForEndOfFrame();
