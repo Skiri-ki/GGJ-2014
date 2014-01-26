@@ -6,7 +6,7 @@ public class Jumper : MonoBehaviour {
 	float MIN_DELAY = 1f, MAX_DELAY = 5f;
 	float timer;
 
-	float MIN_FORCE = 25f, MAX_FORCE = 500f;
+	float MIN_FORCE = 1f, MAX_FORCE = 10f;
 
 	// Use this for initialization
 	void Start () {

@@ -109,13 +109,13 @@ public class GenerateStuff : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	    /*generateWalker ();
+	    generateWalker ();
 		generateJumper ();
 
 		generateJuggler ();
 		generateTwitcher ();
 		generateRainbow ();
-		generateMusician ();*/ 
+		generateMusician ();
 		generateFlyer ();
 		generateMover();
 	}
