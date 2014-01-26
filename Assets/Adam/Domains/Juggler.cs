@@ -1,9 +1,11 @@
 using UnityEngine;
 using System.Collections;
 
-public class Juggler : MonoBehaviour {
+public class Juggler : Domain {
 	float timer;
 	float CHANGE_TIME;
+	
+	public override DomainEnum EDomain{get{return DomainEnum.Visuals;}}
 
 	// Use this for initialization
 	void Start () {
