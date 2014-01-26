@@ -26,7 +26,7 @@ public class WorldBuilder : MonoBehaviour {
 		int count = 0;
 
 		
-		for(int i = 0; count < 25000; i++) {
+		for(int i = 0; count < 20000; i++) {
 
 			int blockCount = 0;
 			if( i % 60 < 30 )
@@ -38,10 +38,11 @@ public class WorldBuilder : MonoBehaviour {
 
 			bool isDomain = false;
 			Transform newObj = null;
-			if(Random.value < 50.0f/(blockCount))
+			if(Random.value < 90.0f/(blockCount))
 				newObj=BuildCreature(blockCount).transform;
 			else {
-				newObj = BuildDomain(blockCount, Random.Range(0, 100000)).transform;
+				newObj = BuildDomain(blockCount, Random.Range(0, 100000)).AddComponent<Body>().transform;
+				newObj.rigidbody.isKinematic = true;
 				isDomain = true;
 			}
 				
@@ -55,7 +56,7 @@ public class WorldBuilder : MonoBehaviour {
 					newObj.position = new Vector3(newObj.position.x, 4, newObj.position.z);
 				}
 
-				if(Random.value < 0.05f) {
+				if(Random.value < 0.1f) {
 					newObj.gameObject.AddComponent<MusicGenerator>();
 					newObj.gameObject.AddComponent<Light>();
 				}
