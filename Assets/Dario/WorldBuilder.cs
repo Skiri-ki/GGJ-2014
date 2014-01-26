@@ -119,8 +119,12 @@ public class WorldBuilder : MonoBehaviour {
 		int x = (int)Math.Pow(blockCount, 0.33f);
 		x= Mathf.Max(x,2);
 		z= Mathf.Max(z,2);
+
+		int nos = Mathf.Max(0, (int) Mathf.Floor(Mathf.Log (blockCount)));
+		float spacing = Random.Range (0.9f, 1f);
+		spacing = spacing < 0.95f ? spacing : 1f;
 		
-		GameObject generatedObj = HexahedronFiller.FillHexahedron(x, y, z, 1 /*Random.Range(0.4f, 0.95f)*/, 0.25f, 2);
+		GameObject generatedObj = HexahedronFiller.FillHexahedron(x, y, z, spacing, Random.Range(0.25f, 0.5f), nos);
 
 		return generatedObj;
 	}
