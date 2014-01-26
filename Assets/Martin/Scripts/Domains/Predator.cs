@@ -6,7 +6,7 @@ public class Predator : Domain {
 	public override DomainEnum EDomain{get{return DomainEnum.BodyAttachment;}}
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		foreach (Transform trans in GetComponentsInChildren<Transform>()) {
 			trans.tag = "Predator";
 		}
@@ -38,7 +38,7 @@ public class Predator : Domain {
 		float startTime = Time.time;
 		float duration = 0.5f;
 		
-		while(obj.transform.localScale.magnitude>0.1f){
+		while(obj.transform.localScale.x>0.15f){
 			yield return new WaitForEndOfFrame();
 			obj.transform.localScale = Vector3.Lerp(startSize,Vector3.one*0.1f,(Time.time-startTime)/duration);
 		}
