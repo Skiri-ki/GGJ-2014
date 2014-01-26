@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 public class WorldBuilder : MonoBehaviour {
 
 	public Transform Player;
-	public GameObject cube;
+//	public GameObject cube;
 	public static WorldBuilder builder;
 	void Awake(){
 		builder = this;

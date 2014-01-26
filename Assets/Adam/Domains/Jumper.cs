@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Jumper : MonoBehaviour {
+public class Jumper : Domain {
 	float delay;
 	float MIN_DELAY = 1f, MAX_DELAY = 5f;
 	float timer;
 
 	float MIN_FORCE = 1f, MAX_FORCE = 10f;
+
+	public override DomainEnum EDomain{get{return DomainEnum.BodyAttachmentSpecialMovement;}}
 
 	// Use this for initialization
 	void Start () {
