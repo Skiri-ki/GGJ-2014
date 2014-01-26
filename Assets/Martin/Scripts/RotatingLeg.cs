@@ -5,6 +5,6 @@ public class RotatingLeg : Leg {
 
 	
 	public override void PropelForward(){
-		joint.rigidbody.AddRelativeTorque(Vector3.forward * -swingForceForwardMovement);
+//		joint.rigidbody.AddRelativeTorque(Vector3.forward * -swingForceForwardMovement);
 	}
 }

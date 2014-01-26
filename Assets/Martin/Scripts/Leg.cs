@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using GameObjectExtension;
 
 //[RequireComponent(typeof(CharacterhJoint))]
 public class Leg : LocomotiveExtremity {
@@ -10,8 +11,13 @@ public class Leg : LocomotiveExtremity {
 	protected float swingForceForwardMovement = 100.0f;
 	protected float swingForceBackMovement = 50.0f;
 
+	protected BodyHinge hinge;
+
 	public override BodyPartDomain BodyDomain{get{return BodyPartDomain.Leg;}}
 
+	void Start(){
+		hinge = GetComponent<BodyHinge>();
+	}
 	
 	void FixedUpdate(){
 		PropelForward();
@@ -26,21 +32,21 @@ public class Leg : LocomotiveExtremity {
 		if(Time.time%(swingFrequenzyForwardMovement+swingFrequenzyBackMovement)<swingFrequenzyForwardMovement)
 		{
 			//			leghJoint.rigidbody.AddRelativeForce(Vector3.forward * swingForceForwardMovement);
-			hJoint.useMotor= true;
-			hJoint.useLimits = true;
+			hinge.HJoint.useMotor= true;
+			hinge.HJoint.useLimits = true;
 			JointMotor motor = new JointMotor();
 			motor.targetVelocity = swingForceForwardMovement;
 			motor.force = swingForceForwardMovement;
-			hJoint.motor = motor;
+			hinge.HJoint.motor = motor;
 //			Debug.Log("for");
 	
 		}else{
-			hJoint.useMotor= true;
-			hJoint.useLimits = true;
+			hinge.HJoint.useMotor= true;
+			hinge.HJoint.useLimits = true;
 			JointMotor motor = new JointMotor();
 			motor.targetVelocity = -swingForceBackMovement;
 			motor.force = swingForceBackMovement;
-			hJoint.motor = motor;
+			hinge.HJoint.motor = motor;
 //			leghJoint.rigidbody.AddRelativeForce(Vector3.forward * -swingForceBackMovement);
 //			Debug.Log("Back");
 			

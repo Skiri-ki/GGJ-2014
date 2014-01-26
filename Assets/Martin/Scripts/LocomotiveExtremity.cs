@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class LocomotiveExtremity : BodyHinge {
+[RequireComponent(typeof(BodyHinge))]
+public abstract class LocomotiveExtremity : BodyPart {
 
 //	// Use this for initialization
 //	void Start () {

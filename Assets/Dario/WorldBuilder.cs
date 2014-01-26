@@ -30,17 +30,12 @@ public class WorldBuilder : MonoBehaviour {
 			else
 				blockCount = 1000;
 
-			int y = Random.Range( 3, Math.Min(10, blockCount / 3));
-			int area = blockCount / y;
-			int z = Random.Range( 1, (int)Mathf.Sqrt(area));
-			int x = area/z;
-
-			Transform newObj = HexahedronFiller.FillHexahedron(x, y, z, 1 /*Random.Range(0.4f, 0.95f)*/, 0.25f, 2).transform;
-
+			Transform newObj=BuildEntity(blockCount).transform;
+			count += blockCount;
 			if(newObj.childCount != 0)  {
 				ResetObject(newObj);
 				ActiveObjects.Add(newObj);
-				count += newObj.childCount;
+//				count += newObj.childCount;
 				if(Random.value < 0.01f) {
 					newObj.gameObject.AddComponent<MusicGenerator>();
 					newObj.gameObject.AddComponent<Light>();
@@ -53,7 +48,45 @@ public class WorldBuilder : MonoBehaviour {
 
 		timers = new float[ActiveObjects.Count];
 	}
-	
+
+	private GameObject BuildEntity(int blockCount){
+//		int numberOfSubparts = Random.Range(1,10);
+
+		List<int> blockCountForPart = new List<int>();
+
+		for (int i = 0; 0 < blockCount && i <= 5; i++) {
+			blockCountForPart.Add(Random.Range(1,blockCount));
+			blockCount -=blockCountForPart[i];
+		}
+		if(blockCount>0){
+			blockCountForPart.Add(blockCount);
+		}
+		List<GameObject> objects = new List<GameObject>();
+
+		foreach (int count in blockCountForPart) {
+			objects.Add(BuildDomain(count));
+		}
+
+		return GenerateCreature.GenerateFromParts(objects).gameObject;
+	}
+
+
+	private GameObject BuildDomain(int blockCount){
+		int y = Random.Range( 3, Math.Min(10, blockCount / 3));
+		int area = blockCount / y;
+		int z = Random.Range( 1, (int)Mathf.Sqrt(area));
+		int x = area/z;
+
+		x= Mathf.Max(x,1);
+		y= Mathf.Max(y,1);
+		z= Mathf.Max(z,1);
+		
+		GameObject generatedObj = HexahedronFiller.FillHexahedron(x, y, z, 1 /*Random.Range(0.4f, 0.95f)*/, 0.25f, 2);
+
+		return generatedObj;
+	}
+
+
 	// Update is called once per frame
 	void Update () {
 		for(int i = 0; i < ActiveObjects.Count; i++){
@@ -77,7 +110,7 @@ public class WorldBuilder : MonoBehaviour {
 		_obj.collider.enabled = false;
 
 		float scale = _obj.localScale.y * Random.Range(0.3f, 2.0f);
-		_obj.localScale = new Vector3(scale, scale, scale);
+//		_obj.localScale = new Vector3(scale, scale, scale);
 
 		float boundsMax = _obj.collider.bounds.max.magnitude/2;
 		Vector2 inCirlce = Random.insideUnitCircle.normalized * (InfluenceDistance - 5 + Random.Range(-10, 40));
