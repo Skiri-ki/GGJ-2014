@@ -11,5 +11,7 @@ namespace GameObjectExtension {
 //			Debug.Log(comp);
 			return comp;
 		}
+		
+
 	}
 }

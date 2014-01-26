@@ -33,7 +33,7 @@ public class Body : BodyPart {
 
 			Domain.AddComponentTypeFor(gameObject, DomainEnum.BodyAttachmentSpecialMovement);
 			Domain.AddComponentTypeFor(gameObject, DomainEnum.Visuals);
-			Domain.AddComponentTypeFor(gameObject, DomainEnum.BodyAttachment);
+//			Domain.AddComponentTypeFor(gameObject, DomainEnum.BodyAttachment);
 			Domain.AddComponentTypeFor(gameObject, DomainEnum.Audio);
 			break;
 			
@@ -147,7 +147,11 @@ public class Body : BodyPart {
 		default:
 			break;
 		}
-
+		
+//		Domain.AddComponentTypeFor(gameObject, DomainEnum.BodyAttachmentSpecialMovement);
+		Domain.AddComponentTypeFor(gameObject, DomainEnum.Visuals);
+		Domain.AddComponentTypeFor(gameObject, DomainEnum.BodyAttachment);
+//		Domain.AddComponentTypeFor(gameObject, DomainEnum.Audio);
 		
 		int rand2 = UnityEngine.Random.Range(0,100);
 		if(rand2 <= 20){
