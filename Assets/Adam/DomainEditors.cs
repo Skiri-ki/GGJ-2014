@@ -22,7 +22,8 @@ public class DomainEditors : MonoBehaviour {
 		Material new_material = new Material (Shader.Find ("Diffuse"));
 		new_material.color = new_color;
 		foreach (Transform child in domain.transform) {
-			child.renderer.sharedMaterial = new_material;
+			if(child.renderer)
+				child.renderer.sharedMaterial = new_material;
 		}
 	}
 }

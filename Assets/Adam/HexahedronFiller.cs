@@ -34,7 +34,23 @@ public class HexahedronFiller : MonoBehaviour {
 			}
 		}
 
-		return holder;
+		bool previousCollState = holder.collider.enabled;
+		holder.collider.enabled=true;
+			
+		GameObject center = new GameObject("Center" + holder.name);
+		center.transform.position = holder.collider.bounds.center;
+		center.transform.localScale = holder.collider.bounds.extents *2;
+		Transform [] childs = holder.GetComponentsInChildren<Transform>();
+		for (int i = 0; i < childs.Length; i++) {
+
+			if(childs[i] == holder.transform)
+				continue;
+			childs[i].parent = center.transform;
+		}
+		center.AddComponent<BoxCollider>();
+		center.collider.enabled=false;
+		GameObject.Destroy(holder);
+		return center;
 	}
 
 	// Number saying how far I am from the center in the given dimension [0,0.33]

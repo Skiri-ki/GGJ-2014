@@ -32,7 +32,7 @@ public class BodyHinge : BodyJoint {
 	public override BodyPartDomain BodyDomain{get{return BodyPartDomain.BodyJoint;}}
 	
 	// Use this for initialization
-	public void Init () {
+	public new void Init () {
 		Debug.Log("Init 1: "+ joint);
 		if(joint == null)
 			joint = transform.GetComponent<HingeJoint>();
