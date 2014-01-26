@@ -26,24 +26,36 @@ public class WorldBuilder : MonoBehaviour {
 		int count = 0;
 
 		
-		for(int i = 0; count < 5000; i++) {
+		for(int i = 0; count < 25000; i++) {
 
 			int blockCount = 0;
-			if( i % 530 < 500 )
-				blockCount = 40;
-			else if (i % 530 < 525)
+			if( i % 60 < 30 )
+				blockCount = 10;
+			else if (i % 60 < 40)
 				blockCount = 200;
 			else
 				blockCount = 1000;
 
-//			Transform newObj=BuildEntity(blockCount).transform;
-			Transform newObj=BuildCreature(blockCount).transform;
+			bool isDomain = false;
+			Transform newObj = null;
+			if(Random.value < 50.0f/(blockCount))
+				newObj=BuildCreature(blockCount).transform;
+			else {
+				newObj = BuildDomain(blockCount, Random.Range(0, 100000)).transform;
+				isDomain = true;
+			}
+				
 			count += blockCount;
 			if(newObj.childCount != 0)  {
 				ResetObject(newObj);
 				ActiveObjects.Add(newObj);
-//				count += newObj.childCount;
-				if(Random.value < 0.01f) {
+				if(isDomain) {
+					float scale = newObj.localScale.y * Random.Range(0.3f, 4.0f);
+					newObj.localScale = new Vector3(scale, scale, scale);
+					newObj.position = new Vector3(newObj.position.x, 4, newObj.position.z);
+				}
+
+				if(Random.value < 0.05f) {
 					newObj.gameObject.AddComponent<MusicGenerator>();
 					newObj.gameObject.AddComponent<Light>();
 				}
@@ -97,13 +109,14 @@ public class WorldBuilder : MonoBehaviour {
 	}
 	public static GameObject BuildDomain(int blockCount, int seed){
 		UnityEngine.Random.seed = seed;
-		int y = UnityEngine.Random.Range( 3, Math.Min(10, blockCount / 3));
-		int area = blockCount / y;
-		int z = UnityEngine.Random.Range( 1, (int)Mathf.Sqrt(area));
-		int x = area/z;
-
-		x= Mathf.Max(x,2);
+		int y = (int)Math.Pow(blockCount, 0.33f);// UnityEngine.Random.Range( 3, Math.Min(10, blockCount / 3));
 		y= Mathf.Max(y,2);
+		/*int area = blockCount / y;
+		int z = UnityEngine.Random.Range( 2, (int)Mathf.Sqrt(area));
+		int x = area/z;*/
+		int z = (int)Math.Pow(blockCount, 0.33f);
+		int x = (int)Math.Pow(blockCount, 0.33f);
+		x= Mathf.Max(x,2);
 		z= Mathf.Max(z,2);
 		
 		GameObject generatedObj = HexahedronFiller.FillHexahedron(x, y, z, 1 /*Random.Range(0.4f, 0.95f)*/, 0.25f, 2);
@@ -134,15 +147,14 @@ public class WorldBuilder : MonoBehaviour {
 	void ResetObject(Transform _obj) {
 		_obj.collider.enabled = false;
 
-		float scale = _obj.localScale.y * Random.Range(0.3f, 2.0f);
-//		_obj.localScale = new Vector3(scale, scale, scale);
+
 
 		float boundsMax = _obj.collider.bounds.max.magnitude/2;
 		Vector2 inCirlce = Random.insideUnitCircle.normalized * (InfluenceDistance - 5 + Random.Range(-10, 40));
 		inCirlce += inCirlce.normalized * boundsMax;
 
 
-		_obj.position = Player.position + new Vector3(inCirlce.x, _obj.localScale.y/2 - Player.position.y, inCirlce.y);
+		_obj.position = Player.position + new Vector3(inCirlce.x, -Player.position.y, inCirlce.y);
 		_obj.localEulerAngles = new Vector3(0, Random.Range(0, 360), 0);
 	}
 

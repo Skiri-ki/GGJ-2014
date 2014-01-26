@@ -153,7 +153,7 @@ public class Body : BodyPart {
 		if(rand2 <= 20){
 			gameObject.AddComponentIfMissing<Rainbow>();
 		}
-		if(rand2 == 21){
+		if(rand2 >= 21 && rand2 < 30){
 			gameObject.AddComponentIfMissing<Musician>();
 		}
 
