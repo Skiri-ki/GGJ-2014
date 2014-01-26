@@ -221,4 +221,6 @@ Assets/Standard Assets*
 /*.sln
 Temp
 /Assets/Dario/Standard Assets
-WinStd*
+BuildWinStd
+BuildMacstd
+BuildLinStd
