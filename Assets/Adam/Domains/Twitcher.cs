@@ -6,8 +6,8 @@ public class Twitcher : MonoBehaviour {
 	float MIN_FORCE = 250f, MAX_FORCE = 1000f;
 	float MIN_VELOCITY = -250f, MAX_VELOCITY = 250f;
 
-	float timer = 0f;
-	float CHANGE_TIME = 0f;
+	float timer;
+	float CHANGE_TIME;
 	
 	// Use this for initialization
 	void Start () {

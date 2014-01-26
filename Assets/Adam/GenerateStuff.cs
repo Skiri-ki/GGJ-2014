@@ -18,6 +18,8 @@ public class GenerateStuff : MonoBehaviour {
 		
 		BodyPart.ConnectBodyParts<HingeJoint> (hex1, hex2);
 		BodyPart.ConnectBodyParts<HingeJoint> (hex1, hex3);
+
+		BodyPart.ConnectBodyParts<SpringJoint> (hex1, hex2).transform.Translate(Vector3.back * 10f);
 	}
 
 	void generateJumper() {
@@ -39,7 +41,7 @@ public class GenerateStuff : MonoBehaviour {
 		DomainEditors.ChangeColor (color, hex2);
 		hex2.AddComponent<Flyer> ();
 		
-		BodyPart.ConnectBodyParts<SpringJoint> (hex1, hex2).transform.Translate(Vector3.up * 10f);
+		BodyPart.ConnectBodyParts<SpringJoint> (hex1, hex2).transform.Translate(Vector3.forward * 10f);
 	}
 
 	void generateJuggler() {
@@ -68,7 +70,26 @@ public class GenerateStuff : MonoBehaviour {
 		DomainEditors.ChangeColor (color, hex2);
 		hex2.AddComponent<Rainbow> ();
 		
-		BodyPart.ConnectBodyParts<HingeJoint> (hex1, hex2).transform.Translate(Vector3.left * 15f);
+		BodyPart.ConnectBodyParts<HingeJoint> (hex1, hex2).transform.Translate(Vector3.back * 20f);
+	}
+
+	void generateMusician() {
+		Color color = DomainEditors.getRandColor ();
+		GameObject hex2 = HexahedronFiller.FillHexahedron (5, 4, 5, 1f, 0.8f, 5);
+		DomainEditors.ChangeColor (color, hex2);
+		hex2.AddComponent<Musician> ();
+		hex2.transform.Translate (Vector3.right * 20f);
+	}
+
+	void generateSpinner() {
+		Color color = DomainEditors.getRandColor ();
+		GameObject hex1 = HexahedronFiller.FillHexahedron (6, 3, 3, 0.95f, 0.25f, 2);
+		DomainEditors.ChangeColor (color, hex1);
+		GameObject hex2 = HexahedronFiller.FillHexahedron (5, 4, 5, 1f, 0.8f, 5);
+		DomainEditors.ChangeColor (color, hex2);
+		hex2.AddComponent<Spinner> ();
+		
+		BodyPart.ConnectBodyParts<HingeJoint> (hex1, hex2).transform.Translate(Vector3.left * 20f);
 	}
 
 	// Use this for initialization
@@ -79,6 +100,8 @@ public class GenerateStuff : MonoBehaviour {
 		generateJuggler ();
 		generateTwitcher ();
 		generateRainbow ();
+		generateMusician ();
+		generateSpinner();
 	}
 	
 	// Update is called once per frame
